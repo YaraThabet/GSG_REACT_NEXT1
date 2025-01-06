@@ -1,9 +1,8 @@
-.checkbox{
-    border: 3px solid #bbe8ef;
-    border-radius: 1ch;
+.AllTodosComponent{
+    border: 5px solid #96dae4;
+    border-radius: 2ch;
     margin: 20px;
     padding: 20px;
     justify-items: center;
     align-items: center;
-
 }

@@ -1,32 +1,47 @@
 
 
+import { useMemo } from 'react';
+import { ITodoItem } from '../type';
 import './TodoData.css'
-interface ItaskCounts {
-  total: number;
-  completed: number;
-  urgent: number;
+
+  interface Iprops {
+    items:ITodoItem[];
+
+
+  }
+
+const TodoDataComponent= (props:Iprops) => {
+
+  const urgentCount = useMemo(()=>{
+    return props.items.filter(item =>(item.isUrgent)).length;
+  },[props.items]);//بتستخدم اذا اتغيرت الITEM في البرنامج
+  
+  const completedCount =props.items.filter(item =>(item.isDone)).length;
+
+  return(
+    <div className='TodoData'>
+     <div>
+       <b>{props.items.length}</b>
+       <span>Created Tasks</span>
+    </div>
+
+
+    <div>
+       <b>{completedCount}</b>
+       <span>copleted Tasks</span>
+     </div>
+
+     <div>
+       <b>{urgentCount}</b>
+       <span>Urgent Tasks</span>
+     </div>
+  </div>
+
+  )
+
 }
 
 
-const TodoDataComponent= ({ taskCounts }:{ taskCounts:ItaskCounts}) => ( //يستخدم لعرص المهام في التطبيق 
-  <div className='TodoData'>
-    <div>
-    <div className='Created1'>
-      <h3>{taskCounts.total}</h3>
-      <p>Created tasks</p>
-    </div>
-    <div className='Created2'>
-      <h3>{taskCounts.completed}</h3>
-      <p>Completed tasks</p>
-    </div>
-    <div className='Created3'>
-      <h3>{taskCounts.urgent}</h3>
-      <p>Urgent tasks</p>
-    </div>
 
-    </div>
-    
-  </div>
-);
 
 export default TodoDataComponent;

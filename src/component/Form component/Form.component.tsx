@@ -1,43 +1,48 @@
 import { useState } from 'react'
 import './Form.css'
+import { ITodoItem } from '../type';
+import React from 'react'
 
-
-interface Itask{
-  title: string;
-  urgent: boolean;
-//   completed: boolean;
+interface Iprops {
+  onSubmit:(item:ITodoItem)=>void//لمن اضغط onSubmit  (ITodoItem)يجب ان يستقبل عنصر من نوع  
 }
 
-interface IaddTask{
-    addTask: (task:Itask) => void;
-}
 
-const FormComponent:React.FC<IaddTask> = ({addTask})=>{
+const FormComponent = React.memo((props:Iprops)=>{
 
-     const[title , setTitle]=useState<string>("");
-     const [urgent, setUrgent] = useState<boolean>(false);
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement> ) =>{
+    e.preventDefault();//عشان ما يعمل  اعادة تحميل  للصفحة
+    const title:string = e.currentTarget["task"].value;//لحصول على قيمة العنوان من حقل الإدخال الذي يحمل الاسم "task
+    const isUrgent:boolean =e.currentTarget["urgent"].checked;
+    if(title.length>3){
+      const newTask:ITodoItem = {// بدي امررها للاب عبر الprops 
+        id:Date.now() ,
+        title,
+        isUrgent,
+        isDone:false,
+      }
+      props.onSubmit(newTask);//  للapp newTaskعشان انمرر 
+    }
 
-     const handleSubmit = (e: React.FormEvent) => {
-       e.preventDefault();
-       if (!title.trim()) return;//trim لازلة الفرغات 
-       addTask({ title, urgent });
-       setTitle("");
-       setUrgent(false);
-     };
+  }
 
 
     return (
-        <div >
-            <form onSubmit={handleSubmit} className='form-container'>
-            <div className='input1'>
-            <input id="title" type="text"placeholder="Type Todo here..." onChange={e =>setTitle(e.target.value)}  />
-            </div>
+      <div>
+        <h2>Day : {new Date().toDateString()}</h2>
+        <form className='form-FormComponent' onSubmit={handleSubmit}>
+              
+              <input  type='text'name="task" placeholder='input'  />
             <div>
-            <input id="Check" type="checkbox" onChange={e =>setUrgent(e.target.checked)}  />
+              <label htmlFor='urgent'>Urgent</label>
+              <input  type='checkbox' id='urgent' name="urgent"/>
             </div>
-            <button type="submit" >Add Todo</button>  {/* لمن نضغط يتم ارسال البيانات الى الاب عبر الprops */}
-            </form>
-        </div>
+            <input type="submit" value=" App Todo"   />
+          </form>
+      </div>
+      
+     
+
     )
-}
+});
 export default FormComponent;

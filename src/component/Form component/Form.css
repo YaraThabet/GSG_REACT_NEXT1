@@ -1,9 +1,9 @@
-.form-container  {
-    margin-bottom: 20px;
-  }
 
- .input1{
-
-    background-color: rgb(174, 240, 123);
-
-  }
+.form-FormComponent{
+  border: 5px solid #96dae4;
+  border-radius: 2ch;
+  margin: 20px;
+  padding: 20px;
+  justify-items: center;
+  align-items: center;
+}

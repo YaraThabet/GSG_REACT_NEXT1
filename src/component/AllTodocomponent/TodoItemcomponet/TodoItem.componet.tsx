@@ -1,30 +1,31 @@
 
+import { ITodoItem } from '../../type';
+import './TodoItemcomponet.css'
+import { X } from '@phosphor-icons/react/dist/ssr';
+ 
+interface Iprops{ 
+  data : ITodoItem;
+  onToggle:(e: React.ChangeEvent<HTMLInputElement>) =>void;
+  onDelete: () => void
 
-export interface Task {
-    task: Task;
-    completed: boolean;
-    id: number;
-  }
-interface TodoItemComponentProps{
-    task: Task;
-    toggleCompletion: (id: number) => void; 
-    deleteTask: (id: number) => void; 
-  }
+};
 
-const TodoItemComponent: React.FC<TodoItemComponentProps> = ({ task, toggleCompletion, deleteTask }) => (
-  <div>
+
+const TodoItemComponent = ({data,onToggle,onDelete}:Iprops) => {
+  return (
     <div >
-      <input
-        type="checkbox"
-        checked={task.completed}
-        onChange={() => toggleCompletion(task.id)}
-      />
+      <div className='checkbox' >
+         <input type="checkbox" checked={data.isDone} onChange={onToggle} data-item={data.id} />
+         <span>{data.title}</span>
+         <span><X size={20} color="#a30000" weight="fill" onClick={onDelete} /></span>
+         <span>isUrgent:{data.isUrgent.toString()}</span>
+      </div>
 
+
+
+     
     </div>
-    <button onClick={() => deleteTask(task.id)}>
-      X
-    </button>
-  </div>
-);
+  );  
+};
 
 export default TodoItemComponent;
